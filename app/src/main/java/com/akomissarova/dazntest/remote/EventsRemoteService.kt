@@ -9,6 +9,9 @@ interface EventsRemoteService {
     @GET("getEvents")
     suspend fun getEvents(): List<EventRemoteData>
 
+    @GET("getSchedule")
+    suspend fun getSchedule(): List<EventRemoteData>
+
     companion object {
         var apiService: EventsRemoteService? = null
         fun getInstance(): EventsRemoteService {

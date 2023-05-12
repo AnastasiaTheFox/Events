@@ -2,4 +2,8 @@
     <string name="app_name">Events</string>
     <string name="events_title">Events</string>
     <string name="schedule_title">Schedule</string>
+    <string name="yesterday">Yesterday</string>
+    <string name="today">Today</string>
+    <string name="tomorrow">Tomorrow</string>
+    <string name="day_after_tomorrow">Day after tomorrow</string>
 </resources>

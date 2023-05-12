@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -14,6 +13,7 @@ import androidx.compose.material.Tab
 import androidx.compose.material.TabRow
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -24,11 +24,14 @@ import androidx.compose.ui.unit.dp
 import com.akomissarova.dazntest.events.ui.EventsScreen
 import com.akomissarova.dazntest.ui.theme.EventsTheme
 import com.akomissarova.dazntest.events.ui.EventsViewModel
+import com.akomissarova.dazntest.events.ui.ScheduleViewModel
+import com.akomissarova.dazntest.ui.ScheduleScreen
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val eventsViewModel by viewModels<EventsViewModel>()
+        val scheduleViewModel by viewModels<ScheduleViewModel>()
         setContent {
             EventsTheme {
                 // A surface container using the 'background' color from the theme
@@ -36,7 +39,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    MainScreen(eventsViewModel)
+                    MainScreen(eventsViewModel, scheduleViewModel)
                 }
             }
         }
@@ -44,8 +47,17 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun MainScreen(eventsViewModel: EventsViewModel) {
+fun MainScreen(
+    eventsViewModel: EventsViewModel,
+    scheduleViewModel: ScheduleViewModel
+) {
     var tabIndex by remember { mutableStateOf(0) }
+    LaunchedEffect(Unit, block = {
+        eventsViewModel.getEventsList()
+    })
+    LaunchedEffect(Unit, block = {
+        scheduleViewModel.getScheduleEventsList()
+    })
 
     val tabs = listOf(
         stringResource(id = R.string.events_title),
@@ -56,7 +68,7 @@ fun MainScreen(eventsViewModel: EventsViewModel) {
         Column(modifier = Modifier.weight(1f)) {
             when (tabIndex) {
                 0 -> EventsScreen(eventsViewModel)
-                1 -> ScheduleScreen()
+                1 -> ScheduleScreen(scheduleViewModel)
             }
         }
         TabRow(
@@ -81,11 +93,3 @@ fun MainScreen(eventsViewModel: EventsViewModel) {
 
     }
 }
-
-@Composable
-fun ScheduleScreen() {
-    Box(modifier = Modifier) {
-
-    }
-}
-

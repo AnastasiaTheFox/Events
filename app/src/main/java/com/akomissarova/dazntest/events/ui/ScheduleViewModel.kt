@@ -9,18 +9,18 @@ import com.akomissarova.dazntest.remote.EventsRemoteService
 import com.akomissarova.dazntest.utils.TimeFormatter
 import kotlinx.coroutines.launch
 
-class EventsViewModel : ViewModel() {
+class ScheduleViewModel : ViewModel() {
     private val _events = mutableStateListOf<EventUiParams>()
     private val formatter = TimeFormatter()
     val eventsList: List<EventUiParams>
         get() = _events
 
-    fun getEventsList() {
+    fun getScheduleEventsList() {
         viewModelScope.launch {
             val apiService = EventsRemoteService.getInstance()
             try {
                 _events.clear()
-                _events.addAll(apiService.getEvents().map { it.mapToUiParams(formatter) })
+                _events.addAll(apiService.getSchedule().map { it.mapToUiParams(formatter) })
             } catch (e: Exception) {
             }
         }
