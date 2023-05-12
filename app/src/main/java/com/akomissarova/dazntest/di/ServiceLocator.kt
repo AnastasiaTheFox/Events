@@ -1,11 +1,12 @@
 package com.akomissarova.dazntest.di
 
 import com.akomissarova.dazntest.events.ui.EventsViewModelFactory
+import com.akomissarova.dazntest.remote.EventsRemoteService
 import com.akomissarova.dazntest.utils.TimeFormatter
 
 object ServiceLocator {
-    public val timeFormatter = TimeFormatter()
+    val timeFormatter = TimeFormatter()
 
-    public fun viewModelFactory(): EventsViewModelFactory = EventsViewModelFactory()
-    //fun getTimeFormatter(): TimeFormatter = TimeFormatter()
+    fun viewModelFactory(): EventsViewModelFactory = EventsViewModelFactory()
+    fun eventsRemoteService(): EventsRemoteService = EventsRemoteService.getInstance()
 }
