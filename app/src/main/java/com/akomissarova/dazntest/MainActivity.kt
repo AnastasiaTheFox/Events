@@ -21,6 +21,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.akomissarova.dazntest.di.ServiceLocator
 import com.akomissarova.dazntest.events.ui.EventsScreen
 import com.akomissarova.dazntest.ui.theme.EventsTheme
 import com.akomissarova.dazntest.events.ui.EventsViewModel
@@ -30,11 +31,10 @@ import com.akomissarova.dazntest.ui.ScheduleScreen
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val eventsViewModel by viewModels<EventsViewModel>()
-        val scheduleViewModel by viewModels<ScheduleViewModel>()
+        val eventsViewModel = ServiceLocator.viewModelFactory().create(EventsViewModel::class.java)
+        val scheduleViewModel = ServiceLocator.viewModelFactory().create(ScheduleViewModel::class.java)
         setContent {
             EventsTheme {
-                // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
