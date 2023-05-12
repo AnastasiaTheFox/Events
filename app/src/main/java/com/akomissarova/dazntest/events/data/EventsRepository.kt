@@ -7,15 +7,15 @@ import kotlinx.coroutines.withContext
 
 class EventsRepository(private val remoteService: EventsRemoteService) {
 
-    public suspend fun getEvents(): List<EventRemoteData> {
+    public suspend fun getEvents(): Result<List<EventRemoteData>> {
         return withContext(Dispatchers.IO) {
-             remoteService.getEvents()
+            Result.success(remoteService.getEvents())
         }
     }
 
-    public suspend fun getSchedule(): List<EventRemoteData> {
+    public suspend fun getSchedule(): Result<List<EventRemoteData>> {
         return withContext(Dispatchers.IO) {
-            remoteService.getSchedule()
+            Result.success(remoteService.getSchedule())
         }
     }
 }

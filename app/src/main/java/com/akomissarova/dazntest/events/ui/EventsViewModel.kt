@@ -19,10 +19,12 @@ class EventsViewModel(
 
     fun getEventsList() {
         viewModelScope.launch {
-            try {
+            val result = repository.getEvents()
+            if (result.isSuccess) {
                 _events.clear()
-                _events.addAll(repository.getEvents().map { it.mapToUiParams(formatter) })
-            } catch (e: Exception) {
+                _events.addAll(result.getOrNull()?.map {
+                    it.mapToUiParams(formatter)
+                } ?: emptyList())
             }
         }
     }

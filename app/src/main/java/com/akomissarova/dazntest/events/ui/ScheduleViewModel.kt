@@ -19,10 +19,12 @@ class ScheduleViewModel(
 
     fun getScheduleEventsList() {
         viewModelScope.launch {
-            try {
+            val result = repository.getSchedule()
+            if (result.isSuccess) {
                 _events.clear()
-                _events.addAll(repository.getSchedule().map { it.mapToUiParams(formatter) })
-            } catch (e: Exception) {
+                _events.addAll(result.getOrNull()?.map {
+                    it.mapToUiParams(formatter)
+                } ?: emptyList())
             }
         }
     }
