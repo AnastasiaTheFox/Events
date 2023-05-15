@@ -7,6 +7,7 @@ import com.akomissarova.dazntest.events.data.EventUiParams
 import com.akomissarova.dazntest.events.data.EventsRepository
 import com.akomissarova.dazntest.events.data.mapToUiParams
 import com.akomissarova.dazntest.utils.TimeFormatter
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 class ScheduleViewModel(
@@ -19,13 +20,16 @@ class ScheduleViewModel(
 
     fun getScheduleEventsList() {
         viewModelScope.launch {
-            val result = repository.getSchedule()
-            if (result.isSuccess) {
-                _events.clear()
-                _events.addAll(result.getOrNull()?.map {
-                    it.mapToUiParams(formatter)
-                } ?: emptyList())
-            }
+            repository.getSchedule()
+                .collectLatest { result ->
+                    //TODO should be error handling here with passing different states
+                    if (result.isSuccess) {
+                        _events.clear()
+                        _events.addAll(result.getOrNull()?.map {
+                            it.mapToUiParams(formatter)
+                        } ?: emptyList())
+                    }
+                }
         }
     }
 }

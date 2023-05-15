@@ -9,6 +9,6 @@ object ServiceLocator {
     val timeFormatter = TimeFormatter()
 
     fun viewModelFactory(): EventsViewModelFactory = EventsViewModelFactory()
-    fun eventsRemoteService(): EventsRemoteService = EventsRemoteService.getInstance()
+    private fun eventsRemoteService(): EventsRemoteService = EventsRemoteService.getInstance()
     fun eventsRepository(): EventsRepository = EventsRepository(eventsRemoteService())
 }

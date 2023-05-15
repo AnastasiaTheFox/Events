@@ -20,6 +20,7 @@ class EventsViewModel(
     fun getEventsList() {
         viewModelScope.launch {
             val result = repository.getEvents()
+            //TODO should be error handling here with passing different states
             if (result.isSuccess) {
                 _events.clear()
                 _events.addAll(result.getOrNull()?.map {
